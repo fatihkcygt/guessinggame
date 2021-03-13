@@ -58,6 +58,60 @@ namespace GuessingGame
         MindNumbers computer_number = new MindNumbers();
         MindNumbers human_number = new MindNumbers();
 
+
+
+        public List<string> possible_numbers_as_string = new List<string> {};
+
+
+        /// <summary>
+        /// Fill possible numbers to guessing and add list of possible_numbers_as_string.
+        /// 9*9*8*7 Combination. So count equal to 4536.
+        /// </summary>
+        public void fill()
+        {
+            for (int a = 1; a <= 9; a++)
+            {
+                for (int b = 0; b <= 9; b++)
+                {
+                    if (b == a) continue;
+                    for (int c = 0; c <= 9; c++)
+                    {
+                        if (c == b || c == a) continue;
+                        for (int d = 0; d <= 9; d++)
+                        {
+                            if (d == a || d == b || d == c) continue;
+                            String cnt = "" + a + b + c + d;
+                            possible_numbers_as_string.Add(cnt);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fill possible numbers to guessing and add list of possible_numbers_as_string.
+        /// 9*9*8*7 Combination. So count equal to 4536.
+        /// </summary>
+        /// <param name="ans">Possible list element to check guess for remove</param>
+        /// <param name="guess">Guess</param>
+        /// <param name="negative">Negative value for guess</param>
+        /// <param name="positive">Positive value for guess</param>
+        public Boolean check(String ans, String guess, int negative, int positive)
+        {
+            for (int i = 0; i < guess.Length; i++)
+            {
+                int indis = ans.IndexOf(guess[i]);
+                if (indis == i) positive--;
+                else if (indis >= 0) negative--;
+            }
+            return (positive == 0) & (negative == 0);
+        }
+
+        /// <summary>
+        /// Compare two numbers and return negative and positive values together in string split bt ','
+        /// </summary>
+        /// <param name="val1">Number one to compare.</param>
+        /// <param name="val2">Number two to compare.</param>
         public string compare_two_numbers(int val1, int val2)
         {
             string val1_as_string = val1.ToString();
@@ -89,41 +143,17 @@ namespace GuessingGame
             CompNegativeTbox.Text = value.Split(',')[1].ToString();
         }
 
-        public int GenerateRandomNo()
+        /// <summary>
+        /// Generate a random number from possible list.
+        /// </summary>
+        public int GenerateFromPossibleList()
         {
-            int[] exclude = new int[3];
-            exclude[0] = 0;
-            int digit_one;
-            int digit_two;
-            int digit_three;
-            int digit_four;
-
             Random _rdm = new Random();
-            do
-            {
-                digit_one = _rdm.Next(1, 10);
-            } while (exclude.Contains(digit_one));
-            exclude[0] = digit_one;
+            int index_of_array = _rdm.Next(0, possible_numbers_as_string.Count);
+            return Convert.ToInt16(possible_numbers_as_string[index_of_array]);
 
-            do
-            {
-                digit_two = _rdm.Next(0, 10);
-            } while (exclude.Contains(digit_two));
-            exclude[1] = digit_two;
-
-            do
-            {
-                digit_three = _rdm.Next(0, 10);
-            } while (exclude.Contains(digit_three));
-            exclude[2] = digit_three;
-
-            do
-            {
-                digit_four = _rdm.Next(0, 10);
-            } while (exclude.Contains(digit_four));
-
-            return digit_one * 1000 + digit_two * 100 + digit_three * 10 + digit_four;
         }
+
         public Form1()
         {
             InitializeComponent();
@@ -131,8 +161,12 @@ namespace GuessingGame
 
         private void button1_Click(object sender, EventArgs e)
         {
+            fill();
             HumanGuessTextbox.Enabled = true;
             button1.Enabled = false;
+            computer_number.set_from_full_numbers(GenerateFromPossibleList());
+            Thread.Sleep(200); // for avoid generate same random int
+            human_number.set_from_full_numbers(GenerateFromPossibleList());
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -142,29 +176,66 @@ namespace GuessingGame
 
         private void button3_Click(object sender, EventArgs e)
         {
+
             int round = Int16.Parse(button3.Text.Split('.')[0].ToString()) + 1;
+            int HumanGuess = 0;
             if (round == 2)
             {
-                computer_number.set_from_full_numbers(GenerateRandomNo());
-                Thread.Sleep(100); // for avoid generate same random int
-                human_number.set_from_full_numbers(GenerateRandomNo());
                 CompGuessLabel.Text = human_number.get_as_full_number().ToString();
-                HumanNegativeTBox.Enabled = true;
-                HumanPositiveTBox.Enabled = true;
-
-                int HumanGuess = Int16.Parse(HumanGuessTextbox.Text);
+                HumanGuess = Int16.Parse(HumanGuessTextbox.Text);
                 set_comp_positive_negative_tbox(compare_two_numbers(HumanGuess, computer_number.get_as_full_number()));
                 ResultLabel.Text = computer_number.get_as_full_number().ToString();
             }
 
-            if (round == 3)
+            if (round >= 3)
             {
-                computer_number.set_from_full_numbers(GenerateRandomNo());
-                human_number.set_from_full_numbers(GenerateRandomNo());
+                if (possible_numbers_as_string.Count == 1)
+                {
+                    MessageBox.Show(possible_numbers_as_string[0].ToString() + " YOUR NUMBER.");
+                }
+
+                int positive = Convert.ToInt16(HumanPositiveBox.Value);
+                int negative = Convert.ToInt16(HumanNegativeBox.Value);   
+                string guess = human_number.get_as_full_number().ToString();
+                for (int j = 0; j < possible_numbers_as_string.Count; j++)
+                {
+                    if (!check(possible_numbers_as_string.ElementAt(j), guess, negative, positive))
+                    {
+                        possible_numbers_as_string.RemoveAt(j);
+                        j--;
+                    }
+                }
+                
+                human_number.set_from_full_numbers(GenerateFromPossibleList());
+
+                HumanGuess = Int16.Parse(HumanGuessTextbox.Text);
+                set_comp_positive_negative_tbox(compare_two_numbers(HumanGuess, computer_number.get_as_full_number()));
+                CompGuessLabel.Text = human_number.get_as_full_number().ToString();
+
+                computer_number.set_from_full_numbers(GenerateFromPossibleList());
+                human_number.set_from_full_numbers(GenerateFromPossibleList());
                 CompGuessLabel.Text = human_number.get_as_full_number().ToString();
             }
 
             button3.Text = round.ToString() + ". ROUND";
+        }
+
+        private void HumanGuessTextbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar == '0') & ((sender as TextBox).Text.Length == 0))
+            {
+                e.Handled = true;
+            }
+            else if (!char.IsDigit(e.KeyChar) || ((TextBox)sender).Text.Contains(e.KeyChar))
+            {
+                MessageBox.Show("Please insert valid number which has 4 different digits...");
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
+            }
+
         }
     }
 }

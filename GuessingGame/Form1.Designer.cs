@@ -33,8 +33,6 @@
             this.HumanGuessLabel = new System.Windows.Forms.Label();
             this.NewGameButton = new System.Windows.Forms.Button();
             this.HumanGuessTextbox = new System.Windows.Forms.TextBox();
-            this.HumanPositiveTBox = new System.Windows.Forms.TextBox();
-            this.HumanNegativeTBox = new System.Windows.Forms.TextBox();
             this.CompGuessLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,6 +43,10 @@
             this.CompPositiveTBox = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.ResultLabel = new System.Windows.Forms.Label();
+            this.HumanPositiveBox = new System.Windows.Forms.NumericUpDown();
+            this.HumanNegativeBox = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.HumanPositiveBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HumanNegativeBox)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -80,25 +82,11 @@
             // 
             this.HumanGuessTextbox.Enabled = false;
             this.HumanGuessTextbox.Location = new System.Drawing.Point(99, 200);
+            this.HumanGuessTextbox.MaxLength = 4;
             this.HumanGuessTextbox.Name = "HumanGuessTextbox";
             this.HumanGuessTextbox.Size = new System.Drawing.Size(112, 20);
             this.HumanGuessTextbox.TabIndex = 3;
-            // 
-            // HumanPositiveTBox
-            // 
-            this.HumanPositiveTBox.Enabled = false;
-            this.HumanPositiveTBox.Location = new System.Drawing.Point(555, 239);
-            this.HumanPositiveTBox.Name = "HumanPositiveTBox";
-            this.HumanPositiveTBox.Size = new System.Drawing.Size(50, 20);
-            this.HumanPositiveTBox.TabIndex = 4;
-            // 
-            // HumanNegativeTBox
-            // 
-            this.HumanNegativeTBox.Enabled = false;
-            this.HumanNegativeTBox.Location = new System.Drawing.Point(651, 239);
-            this.HumanNegativeTBox.Name = "HumanNegativeTBox";
-            this.HumanNegativeTBox.Size = new System.Drawing.Size(50, 20);
-            this.HumanNegativeTBox.TabIndex = 5;
+            this.HumanGuessTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HumanGuessTextbox_KeyPress);
             // 
             // CompGuessLabel
             // 
@@ -123,7 +111,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(566, 262);
+            this.label3.Location = new System.Drawing.Point(566, 286);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(24, 25);
             this.label3.TabIndex = 8;
@@ -133,7 +121,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(667, 262);
+            this.label4.Location = new System.Drawing.Point(667, 286);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(19, 25);
             this.label4.TabIndex = 9;
@@ -143,7 +131,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(194, 262);
+            this.label5.Location = new System.Drawing.Point(194, 286);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 25);
             this.label5.TabIndex = 13;
@@ -153,7 +141,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(93, 262);
+            this.label6.Location = new System.Drawing.Point(93, 286);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(24, 25);
             this.label6.TabIndex = 12;
@@ -162,17 +150,19 @@
             // CompNegativeTbox
             // 
             this.CompNegativeTbox.Enabled = false;
-            this.CompNegativeTbox.Location = new System.Drawing.Point(176, 239);
+            this.CompNegativeTbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CompNegativeTbox.Location = new System.Drawing.Point(175, 253);
             this.CompNegativeTbox.Name = "CompNegativeTbox";
-            this.CompNegativeTbox.Size = new System.Drawing.Size(50, 20);
+            this.CompNegativeTbox.Size = new System.Drawing.Size(50, 30);
             this.CompNegativeTbox.TabIndex = 11;
             // 
             // CompPositiveTBox
             // 
             this.CompPositiveTBox.Enabled = false;
-            this.CompPositiveTBox.Location = new System.Drawing.Point(82, 239);
+            this.CompPositiveTBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CompPositiveTBox.Location = new System.Drawing.Point(81, 253);
             this.CompPositiveTBox.Name = "CompPositiveTBox";
-            this.CompPositiveTBox.Size = new System.Drawing.Size(50, 20);
+            this.CompPositiveTBox.Size = new System.Drawing.Size(50, 30);
             this.CompPositiveTBox.TabIndex = 10;
             // 
             // button3
@@ -193,11 +183,39 @@
             this.ResultLabel.Size = new System.Drawing.Size(0, 13);
             this.ResultLabel.TabIndex = 15;
             // 
+            // HumanPositiveBox
+            // 
+            this.HumanPositiveBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HumanPositiveBox.Location = new System.Drawing.Point(559, 253);
+            this.HumanPositiveBox.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.HumanPositiveBox.Name = "HumanPositiveBox";
+            this.HumanPositiveBox.Size = new System.Drawing.Size(38, 30);
+            this.HumanPositiveBox.TabIndex = 16;
+            // 
+            // HumanNegativeBox
+            // 
+            this.HumanNegativeBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HumanNegativeBox.Location = new System.Drawing.Point(658, 253);
+            this.HumanNegativeBox.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.HumanNegativeBox.Name = "HumanNegativeBox";
+            this.HumanNegativeBox.Size = new System.Drawing.Size(37, 30);
+            this.HumanNegativeBox.TabIndex = 17;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.HumanNegativeBox);
+            this.Controls.Add(this.HumanPositiveBox);
             this.Controls.Add(this.ResultLabel);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label5);
@@ -208,8 +226,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.CompGuessLabel);
-            this.Controls.Add(this.HumanNegativeTBox);
-            this.Controls.Add(this.HumanPositiveTBox);
             this.Controls.Add(this.HumanGuessTextbox);
             this.Controls.Add(this.NewGameButton);
             this.Controls.Add(this.HumanGuessLabel);
@@ -217,6 +233,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Guessing Game";
+            ((System.ComponentModel.ISupportInitialize)(this.HumanPositiveBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HumanNegativeBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,8 +246,6 @@
         private System.Windows.Forms.Label HumanGuessLabel;
         private System.Windows.Forms.Button NewGameButton;
         private System.Windows.Forms.TextBox HumanGuessTextbox;
-        private System.Windows.Forms.TextBox HumanPositiveTBox;
-        private System.Windows.Forms.TextBox HumanNegativeTBox;
         private System.Windows.Forms.Label CompGuessLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -240,6 +256,8 @@
         private System.Windows.Forms.TextBox CompPositiveTBox;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label ResultLabel;
+        private System.Windows.Forms.NumericUpDown HumanPositiveBox;
+        private System.Windows.Forms.NumericUpDown HumanNegativeBox;
     }
 }
 
