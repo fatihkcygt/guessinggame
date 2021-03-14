@@ -16,7 +16,12 @@ namespace GuessingGame
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            var view = new View.Form1();
+            var presenter = new Presenter.MindnumberPresenter(view);
+
+
+            Application.Run(view);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace GuessingGame
+﻿namespace GuessingGame.View
 {
     partial class Form1
     {
@@ -155,6 +155,7 @@
             this.CompNegativeTbox.Name = "CompNegativeTbox";
             this.CompNegativeTbox.Size = new System.Drawing.Size(50, 30);
             this.CompNegativeTbox.TabIndex = 11;
+            this.CompNegativeTbox.Text = "0";
             // 
             // CompPositiveTBox
             // 
@@ -164,9 +165,11 @@
             this.CompPositiveTBox.Name = "CompPositiveTBox";
             this.CompPositiveTBox.Size = new System.Drawing.Size(50, 30);
             this.CompPositiveTBox.TabIndex = 10;
+            this.CompPositiveTBox.Text = "0";
             // 
             // button3
             // 
+            this.button3.Enabled = false;
             this.button3.Location = new System.Drawing.Point(277, 352);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(216, 38);
@@ -178,9 +181,11 @@
             // ResultLabel
             // 
             this.ResultLabel.AutoSize = true;
+            this.ResultLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ResultLabel.ForeColor = System.Drawing.Color.Red;
             this.ResultLabel.Location = new System.Drawing.Point(351, 79);
             this.ResultLabel.Name = "ResultLabel";
-            this.ResultLabel.Size = new System.Drawing.Size(0, 13);
+            this.ResultLabel.Size = new System.Drawing.Size(0, 25);
             this.ResultLabel.TabIndex = 15;
             // 
             // HumanPositiveBox
